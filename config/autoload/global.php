@@ -16,7 +16,7 @@ return array(
     'db' => array(
         
         'driver'            => 'OCI8',
-        'connection_string' => 'localhost/xe',
+        //'connection_string' => 'localhost/xe', //Move to local file
         'character_set'     => 'AL32UTF8',
     ),
     
