@@ -48,7 +48,7 @@ class AuthController extends AbstractActionController
         $id = $captcha->generate();
        
         return new ViewModel(array(
-            'Test' => $db->test(64),
+            //'Test' => $db->test(64),
             'CaptchaID' => $id,
         ));
     }
