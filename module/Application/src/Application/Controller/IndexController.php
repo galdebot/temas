@@ -21,7 +21,7 @@ class IndexController extends AbstractActionController
         
         $user_session = new Container('login_user');
         
-        print_r($_SESSION['login_user']);
+        print_r($user_session->USER_NAME);
         return new ViewModel();
     }
     
