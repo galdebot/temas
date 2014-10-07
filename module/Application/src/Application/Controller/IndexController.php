@@ -10,7 +10,8 @@
 namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\View\Model\ViewModel,
+        \Zend\Session\Container;
 
 class IndexController extends AbstractActionController
 {
@@ -18,7 +19,9 @@ class IndexController extends AbstractActionController
     {
         $sessionManager = $this->serviceLocator->get('Zend\Session\SessionManager');
         
-        print_r($sessionManager);
+        $user_session = new Container('login_user');
+        
+        print_r($_SESSION['login_user']);
         return new ViewModel();
     }
     
