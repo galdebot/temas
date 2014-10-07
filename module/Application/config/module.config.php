@@ -31,12 +31,6 @@ return array(
         ),
     ),
     
-    'session_config' => array(
-        'remember_me_seconds' => 2419200,
-        'use_cookies' => true,
-        'cookie_httponly' => true,
-    ),
-    
     'navigation' => array(
         'default' => array(
             array(

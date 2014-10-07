@@ -16,9 +16,7 @@ use Zend\View\Model\ViewModel,
 class IndexController extends AbstractActionController
 {
     public function indexAction()
-    {
-        $sessionManager = $this->serviceLocator->get('Zend\Session\SessionManager');
-        
+    { 
         $user_session = new Container('login_user');
         
         print_r($user_session->USER_NAME);

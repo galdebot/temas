@@ -27,8 +27,6 @@ return array(
             'Zend\Db\Adapter\Adapter'
                     => 'Zend\Db\Adapter\AdapterServiceFactory',
             'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-            'Zend\Session\SessionManager' => 'Zend\Session\Service\SessionManagerFactory',
-        'Zend\Session\Config\ConfigInterface' => 'Zend\Session\Service\SessionConfigFactory',
         ),
     ),
 );
