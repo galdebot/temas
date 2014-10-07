@@ -26,7 +26,7 @@ class User
         $stmt = $this->adapter->createStatement();
         
         $sql = "
-        SELECT users_id_seq.nextval FROM dual;
+        SELECT users_pk_seq.nextval FROM dual;
         ";
         
         $stmt->prepare($sql);
@@ -61,6 +61,65 @@ class User
         $stmt->prepare($sql);
         
         $stmt->execute($bind);  
+    }
+    
+    public function validateUser($data)
+    {
+        
+        $stmt = $this->adapter->createStatement();
+        
+        $sql = "
+        SELECT USER_NAME,PASSWORD 
+        FROM USERS
+        WHERE USER_NAME = :USER_NAME
+        AND PASSWORD = :PASSWORD
+        ";
+        
+        //array of values o bind
+        $bind = array(
+            'USER_NAME' => (STRING)$data->USER_NAME,
+            'PASSWORD'  => (STRING)$data->PASSWORD,
+        );
+        
+        $stmt->prepare($sql);
+        
+        //Bind values to execute
+        $result = $stmt->execute($bind);
+        
+        $value = (OBJECT)$result->current();
+        
+        $bool = ( !empty($value->USER_NAME) && !empty($value->PASSWORD) ? \TRUE : \FALSE );
+        
+        return $bool;
+    }
+    
+    
+    public function getUserData($data)
+    {
+        
+        $stmt = $this->adapter->createStatement();
+        
+        $sql = "
+        SELECT USER_NAME,EMAIL,ADMIN_USER 
+        FROM USERS
+        WHERE USER_NAME = :USER_NAME
+        AND PASSWORD = :PASSWORD
+        ";
+        
+        //array of values o bind
+        $bind = array(
+            'USER_NAME' => (STRING)$data->USER_NAME,
+            'PASSWORD'  => (STRING)$data->PASSWORD,
+        );
+        
+        $stmt->prepare($sql);
+        
+        //Bind values to execute
+        $result = $stmt->execute($bind);
+        
+        $values = (OBJECT)$result->current();
+        
+        return $values;
     }
     
     public function test($data)

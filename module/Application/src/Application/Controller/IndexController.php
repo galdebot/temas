@@ -16,6 +16,9 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        $sessionManager = $this->serviceLocator->get('Zend\Session\SessionManager');
+        
+        print_r($sessionManager);
         return new ViewModel();
     }
     

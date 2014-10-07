@@ -3,7 +3,8 @@
 namespace Auth\Controller;
 
 use \Zend\Mvc\Controller\AbstractActionController,
-\Zend\View\Model\ViewModel;
+\Zend\View\Model\ViewModel,
+\Zend\Session\Container;
 
 class AuthController extends AbstractActionController
 {
@@ -15,9 +16,66 @@ class AuthController extends AbstractActionController
         return new \Auth\Model\User( $sm->get('Zend\Db\Adapter\Adapter') );
     }
     
-    public function indexAction()
+    private function setUserSeesion($data)
     {
         $db = $this->getUserModel();
+                
+        $user_data = $db->getUserData($data);
+
+        if($user_data->ADMIN_USER == 'Y')
+        {
+
+            $user_session = new Container('login_user');
+            $user_session->USER_NAME  = $user_data->USER_NAME;
+            $user_session->EMAIL      = $user_data->EMAIL;
+            $user_session->ADMIN_USER = $user_data->ADMIN_USER;
+        }else{
+
+            $user_session = new Container('login_user');
+            $user_session->USER_NAME  = $user_data->USER_NAME;
+            $user_session->EMAIL      = $user_data->EMAIL;
+            //$user_session->ADMIN_USER = $user_data->ADMIN_USER;
+        }
+        
+    }
+    
+    private function setUserLogin(){
+        
+        $db = $this->getUserModel();
+        
+        $user_name = $this->getRequest()->getPost('USER_NAME');
+        $password  = $this->getRequest()->getPost('PASSWORD');
+        
+        if( isset($user_name) && !empty($user_name) )
+        {
+
+            $data = new \stdClass();
+            $data->USER_NAME = $user_name;
+            $data->PASSWORD  = $password;
+
+            $login = $db->validateUser($data);
+
+            if($login == TRUE)
+            {
+                echo 'User Validated';
+                
+                $this->setUserSeesion($data);
+            }else{
+
+                echo 'User not Validated';
+            }
+        }
+    }
+    
+    public function indexAction()
+    {
+        //$db = $this->getUserModel();
+        
+        $user_session = new Container('login_user');
+        
+        print_r($_SESSION['login_user']);
+        
+        $post_captcha = $this->getRequest()->getPost('captcha');
         
         $captcha = new \Zend\Captcha\Image();
         
@@ -31,16 +89,15 @@ class AuthController extends AbstractActionController
         
         $captcha->getExpiration();
 
-        if ( isset($_POST['captcha']) && !empty($_POST['captcha']) )
+        if ( isset($post_captcha) && !empty($post_captcha) )
         {
             
-            if ( $captcha->isValid($_POST['captcha']) )
+            if ( $captcha->isValid($post_captcha) )
             {
-                echo "Success!";
-                exit(0);
-            }
-            else
-            {
+                
+                $this-> setUserLogin();
+            }else{
+                
                 echo "Failed!";
             }    
         }
@@ -55,7 +112,7 @@ class AuthController extends AbstractActionController
     
     public function newuserAction()
     {
-        $db = $this->getUserModel();
+        //$db = $this->getUserModel();
         
         $captcha = new \Zend\Captcha\Image();
         
