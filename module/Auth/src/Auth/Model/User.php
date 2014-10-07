@@ -33,10 +33,7 @@ class User
         
         $result = $stmt->execute();
         
-        foreach ($result as $value) 
-        {
-            $num = (OBJECT)$value;
-        }
+        $num = $result->current();
         
         return $num->NEXTVAL;
     }
