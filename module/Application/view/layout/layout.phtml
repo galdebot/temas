@@ -1,0 +1,96 @@
+<?php echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php //echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        //->prependStylesheet($this->basePath() . '/css/templatemo_style.css')
+                       // ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                       // ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+        
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/templatemo_style.css');?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery.min.js')
+            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+        ; ?>
+
+    </head>
+    <body>
+    <div id="templatemo_container">
+            <div id="templatemo_header">  	
+            <div id="out_mission_section">
+                <p>
+                Lorem ipsum dolor sit amet, consec tetur adipi scing elit. Nullam sollici tudin libero. Maece nas posuere congue massa. <a href="subpage.html">more...</a>
+                </p>
+            </div>   
+            <div id="daily_bible_verse_section">
+                    <p> Do to others as you would have them do to you. </p>
+                    <div id="bible_verse">Luke 6:31</div>
+            </div>
+
+        </div> <!-- end of header -->
+        <div id="templatemo_menu">
+<!--            <ul>
+                <li><a href="/" class="current">Home</a></li>
+                <li><a href="/subpages">Community</a></li>
+                <li><a href="/subpages">Blog</a></li>
+                <li><a href="/subpages">FAQs</a></li>  
+                <li><a href="/subpages">About Us</a></li> 
+                <li><a href="/subpages" class="last">Contact Us</a></li>                     
+            </ul> -->
+
+                    <?php // <-- Add this !!
+                            echo $this->navigation('navigation')->menu()
+                                ->setMinDepth(0)
+                                ->setMaxDepth(0)
+                                ->setUlClass('nav')
+                                ->render();
+                    ?>
+        </div> <!-- end of menu -->
+        
+        <div id="templatemo_content">
+            <div id="templatemo_left">
+                <div id="templatemo_news_section">
+                    <h1>Latest Blog</h1>
+                    <div class="templatemo_news_box">
+                        <h2>News title one goes here</h2>
+                        <h3>March 16, 2048</h3>
+                        <p>
+                        Nulla tincidunt, dui eget vehicula sodales, neque nulla hendrerit urna, vitae vehicula orci odio et dolor. Aenean quis mi. Donec orci risus. <a href="subpage.html">[more]</a></p>
+                    </div>
+                    <div class="templatemo_news_box">
+                        <h2>News title two goes here</h2>
+                        <h3>March 19, 2048</h3>
+                        <p>
+                        Cras quis purus in est molestie malesuada. Vivamus interdum, pede sed malesuada facilisis, odio nibh gravida nulla, nec malesuada lacus arcu id leo. <a href="subpage.html">[more]</a></p>
+                    </div>
+                </div>
+                <div class="left_col_section">
+                    <a href="/subpages"><img src="/css/templatemo_ca.jpg" alt="Church Activities" border="0" /></a>
+                </div>
+            </div> <!-- end of left -->
+
+            <div id="templatemo_right">
+                <?php echo $this->content; ?>
+            </div> <!-- end of right -->
+        </div> <!-- end of content -->
+        
+        <div id="templatemo_footer">
+            Copyright © 2048 <a href="/">Your Company Name</a>
+        </div> <!-- end of footer -->
+    </div> <!-- end of container -->
+    </body>
+</html>
