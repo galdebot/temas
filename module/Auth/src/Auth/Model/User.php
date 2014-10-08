@@ -21,20 +21,20 @@ class User
         return \sha1($salt.$data.self::SALT);
     }
     
-    private function newUserSeq()
+    public function newUserSeq()
     {
         $stmt = $this->adapter->createStatement();
         
         $sql = "
-        SELECT users_pk_seq.nextval FROM dual;
+        SELECT users_pk_seq.nextval FROM dual
         ";
         
         $stmt->prepare($sql);
         
         $result = $stmt->execute();
         
-        $num = $result->current();
-        
+        $num = (OBJECT)$result->current();
+               
         return $num->NEXTVAL;
     }
     
@@ -45,17 +45,19 @@ class User
         
         $sql = "
         INSERT INTO 
+        USERS
             (USER_ID,USER_NAME,PASSWORD,ADMIN_USER,EMAIL)
         VALUES
-            (':NewUserSeq',':User_Name',':Password','N',':Email')
+            (:NewUserSeq,:User_Name,:Password,:Admin_User,:Email)
         ";
         
         $bind = array(
             
-            'NewUserSeq' => (INT)$this->newUserSeq,
-            'User_Name'  => (STRING)$data->USER_NAME,
-            'Password'   => $this->passwordSalt( (STRING)$data->PASSWORD ),
-            'Email'      => (STRING)$data->EMAIL,
+            'NewUserSeq' => (INT)$this->newUserSeq(),
+            'User_Name'  => (STRING)$data->User_Name,
+            'Password'   => $this->passwordSalt( (STRING)$data->Password ),
+            'Admin_User' => 'N',
+            'Email'      => (STRING)$data->Email,
         );
         
         $stmt->prepare($sql);
@@ -78,7 +80,7 @@ class User
         //array of values o bind
         $bind = array(
             'USER_NAME' => (STRING)$data->USER_NAME,
-            'PASSWORD'  => (STRING)$data->PASSWORD,
+            'PASSWORD'  => $this->passwordSalt((STRING)$data->PASSWORD),
         );
         
         $stmt->prepare($sql);
@@ -109,7 +111,7 @@ class User
         //array of values o bind
         $bind = array(
             'USER_NAME' => (STRING)$data->USER_NAME,
-            'PASSWORD'  => (STRING)$data->PASSWORD,
+            'PASSWORD'  => $this->passwordSalt((STRING)$data->PASSWORD),
         );
         
         $stmt->prepare($sql);

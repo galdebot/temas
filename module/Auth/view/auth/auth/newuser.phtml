@@ -2,9 +2,9 @@
     
     <ul class="signup">
         <h1 id="signup">Register</h1>
-        <li>User Name: <input type="text"></li>
-        <li>Email: <input type="email"></li>
-        <li>Password:  <input type="password"></li>
+        <li>User Name: <input type="text" name="USER_NAME"></li>
+        <li>Email: <input type="email" name="EMAIL"></li>
+        <li>Password:  <input type="password" name="PASSWORD"></li>
         <li>Captcha:  <input type="text" name="captcha[input]"></li>
         <li><img src="/images/captcha/signup/<?php echo $this->CaptchaID;?>.png" alt="captcha"></li>
         <li><input type="hidden" value="<?php echo $this->CaptchaID?>" name="captcha[id]" /></li>

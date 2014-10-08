@@ -16,7 +16,7 @@ class AuthController extends AbstractActionController
         return new \Auth\Model\User( $sm->get('Zend\Db\Adapter\Adapter') );
     }
     
-    private function setUserSeesion($data)
+    private function setUserSession($data)
     {
         $db = $this->getUserModel();
                 
@@ -59,7 +59,7 @@ class AuthController extends AbstractActionController
             {
                 echo 'User Validated';
                 
-                $this->setUserSeesion($data);
+                $this->setUserSession($data);
             }else{
 
                 echo 'User not Validated';
@@ -112,7 +112,17 @@ class AuthController extends AbstractActionController
     
     public function newuserAction()
     {
-        //$db = $this->getUserModel();
+        $db = $this->getUserModel();
+  
+        $user_name = $this->getRequest()->getPost('USER_NAME');
+        $password  = $this->getRequest()->getPost('PASSWORD');
+        $email     = $this->getRequest()->getPost('EMAIL');
+        $post_captcha = $this->getRequest()->getPost('captcha');
+        
+        $data = new \stdClass();
+        $data->User_Name = $user_name;
+        $data->Password  = $password;
+        $data->Email     = $email;
         
         $captcha = new \Zend\Captcha\Image();
         
@@ -126,13 +136,13 @@ class AuthController extends AbstractActionController
         
         $captcha->getExpiration();
 
-        if ( isset($_POST['captcha']) && !empty($_POST['captcha']) )
+        if ( isset($post_captcha) && !empty($post_captcha) )
         {
             
-            if ( $captcha->isValid($_POST['captcha']) )
+            if ( $captcha->isValid($post_captcha) )
             {
                 echo "Success!";
-                exit(0);
+                $db->newUser($data);
             }
             else
             {
