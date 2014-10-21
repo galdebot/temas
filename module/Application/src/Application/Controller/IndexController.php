@@ -18,13 +18,23 @@ class IndexController extends AbstractActionController
     public function indexAction()
     { 
         $user_session = new Container('login_user');
-        
-        print_r($user_session->USER_NAME);
-        return new ViewModel();
+
+        return new ViewModel(array(
+                
+            'User_Name' => $user_session->USER_NAME,
+        ));
     }
     
     public function subpagesAction()
     {
+        return new ViewModel();
+    }
+    
+    public function contactAction()
+    {
+        $user_session = new Container('login_user');
+        
+        print_r($user_session->USER_NAME);
         return new ViewModel();
     }
 }

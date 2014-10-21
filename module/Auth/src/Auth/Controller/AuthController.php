@@ -4,7 +4,9 @@ namespace Auth\Controller;
 
 use \Zend\Mvc\Controller\AbstractActionController,
 \Zend\View\Model\ViewModel,
-\Zend\Session\Container;
+\Zend\Session\Container,
+\Zend\Form\Annotation\AnnotationBuilder,
+\Auth\Model\Login;
 
 class AuthController extends AbstractActionController
 {
@@ -110,6 +112,28 @@ class AuthController extends AbstractActionController
         ));
     }
     
+    public function testAction()
+    {
+        $login    = new Login();
+        $builder    = new AnnotationBuilder();
+        $form       = $builder->createForm($login);
+         
+        $request = $this->getRequest();
+        
+        if ($request->isPost()){
+            
+            $form->bind($login);
+            
+            $form->setData($request->getPost());
+            
+            if ($form->isValid()){
+                
+                print_r($form->getData());
+            }
+        }
+         
+        return array('form'=>$form);
+    }
     public function newuserAction()
     {
         $db = $this->getUserModel();

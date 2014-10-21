@@ -41,11 +41,12 @@ return array(
             array(
                 'label'  => 'Contact',
                 'route'  => 'application',
-                'action' => 'subpages',
+                'action' => 'contact',
             ),
 
         ),
     ),
+    
     
     'service_manager' => array(
         'abstract_factories' => array(
