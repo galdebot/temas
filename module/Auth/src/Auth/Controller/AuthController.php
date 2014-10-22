@@ -47,8 +47,6 @@ class AuthController extends AbstractActionController
         
         $user_name = $this->getRequest()->getPost('username');
         $password  = $this->getRequest()->getPost('password');
-        $captcha   = $this->getCaptcha();
-        $post_captcha = $this->getRequest()->getPost('captcha');
         
         if( isset($user_name) && !empty($user_name) )
         {
@@ -59,7 +57,7 @@ class AuthController extends AbstractActionController
 
             $login = $db->validateUser($data);
 
-            if($login == TRUE && $captcha->isValid($post_captcha))
+            if($login == TRUE)
             {
                 echo 'User Validated';
                 
@@ -125,15 +123,6 @@ class AuthController extends AbstractActionController
         $login      = new Login();
         $builder    = new AnnotationBuilder();
         $form       = $builder->createForm($login);
- 
-        $form->add(array(
-            'type' => 'Zend\Form\Element\Captcha',
-            'name' => 'captcha',
-            'options'         => array(
-                    'label'   => 'Please verify you are human',
-                    'captcha' => $this->getCaptcha(),
-            ), 
-        ));
          
         $form->add(array(
             'name'       => 'submit',
