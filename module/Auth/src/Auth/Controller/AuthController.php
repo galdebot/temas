@@ -45,8 +45,10 @@ class AuthController extends AbstractActionController
         
         $db = $this->getUserModel();
         
-        $user_name = $this->getRequest()->getPost('USER_NAME');
-        $password  = $this->getRequest()->getPost('PASSWORD');
+        $user_name = $this->getRequest()->getPost('username');
+        $password  = $this->getRequest()->getPost('password');
+        $captcha   = $this->getCaptcha();
+        $post_captcha = $this->getRequest()->getPost('captcha');
         
         if( isset($user_name) && !empty($user_name) )
         {
@@ -57,7 +59,7 @@ class AuthController extends AbstractActionController
 
             $login = $db->validateUser($data);
 
-            if($login == TRUE)
+            if($login == TRUE && $captcha->isValid($post_captcha))
             {
                 echo 'User Validated';
                 
@@ -69,116 +71,136 @@ class AuthController extends AbstractActionController
         }
     }
     
-    public function indexAction()
+    private function getCaptcha()
     {
-        //$db = $this->getUserModel();
         
-        $user_session = new Container('login_user');
-        
-        print_r($user_session->USER_NAME);
-        
-        $post_captcha = $this->getRequest()->getPost('captcha');
-        
-        $captcha = new \Zend\Captcha\Image();
+      $captcha = new \Zend\Captcha\Image();
         
         $captcha->setWordLen(4)
         ->setHeight(60)
         ->setFont('/public/fonts/arial.ttf')
-        ->setImgDir('public/images/captcha/login')
+        ->setImgDir('public/images/captcha')
         ->setDotNoiseLevel(5)
         ->setExpiration(1)        
         ->setLineNoiseLevel(5);
         
         $captcha->getExpiration();
-
-        if ( isset($post_captcha) && !empty($post_captcha) )
-        {
-            
-            if ( $captcha->isValid($post_captcha) )
-            {
-                
-                $this-> setUserLogin();
-            }else{
-                
-                echo "Failed!";
-            }    
-        }
         
-        $id = $captcha->generate();
-       
-        return new ViewModel(array(
-            //'Test' => $db->test(64),
-            'CaptchaID' => $id,
-        ));
+        return $captcha;
     }
     
-    public function testAction()
-    {
-        $login    = new Login();
-        $builder    = new AnnotationBuilder();
-        $form       = $builder->createForm($login);
-         
-        $request = $this->getRequest();
-        
-        if ($request->isPost()){
-            
-            $form->bind($login);
-            
-            $form->setData($request->getPost());
-            
-            if ($form->isValid()){
-                
-                print_r($form->getData());
-            }
-        }
-         
-        return array('form'=>$form);
-    }
-    public function newuserAction()
+    private function addNewUser()
     {
         $db = $this->getUserModel();
   
-        $user_name = $this->getRequest()->getPost('USER_NAME');
-        $password  = $this->getRequest()->getPost('PASSWORD');
-        $email     = $this->getRequest()->getPost('EMAIL');
+        $user_name = $this->getRequest()->getPost('username');
+        $password  = $this->getRequest()->getPost('password');
+        $email     = $this->getRequest()->getPost('email');
         $post_captcha = $this->getRequest()->getPost('captcha');
+        $captcha   = $this->getCaptcha();
         
         $data = new \stdClass();
         $data->User_Name = $user_name;
         $data->Password  = $password;
         $data->Email     = $email;
         
-        $captcha = new \Zend\Captcha\Image();
-        
-        $captcha->setWordLen(4)
-        ->setHeight(60)
-        ->setFont('/public/fonts/arial.ttf')
-        ->setImgDir('public/images/captcha/signup')
-        ->setDotNoiseLevel(5)
-        ->setExpiration(1)
-        ->setLineNoiseLevel(5);
-        
-        $captcha->getExpiration();
-
-        if ( isset($post_captcha) && !empty($post_captcha) )
+        if ( $captcha->isValid($post_captcha) )
         {
-            
-            if ( $captcha->isValid($post_captcha) )
-            {
-                echo "Success!";
-                $db->newUser($data);
-            }
-            else
-            {
-                echo "Failed!";
-            }    
+            echo "Success!";
+            $db->newUser($data);
         }
+        else
+        {
+            echo "Failed!";
+        }     
+    }
+    
+    public function indexAction()
+    {
         
-        $id = $captcha->generate();
-       
-        return new ViewModel(array(
-            
-            'CaptchaID' => $id,
+        $user_session = new Container('login_user');
+        
+        print_r($user_session->USER_NAME);
+        
+        $login      = new Login();
+        $builder    = new AnnotationBuilder();
+        $form       = $builder->createForm($login);
+ 
+        $form->add(array(
+            'type' => 'Zend\Form\Element\Captcha',
+            'name' => 'captcha',
+            'options'         => array(
+                    'label'   => 'Please verify you are human',
+                    'captcha' => $this->getCaptcha(),
+            ), 
         ));
+         
+        $form->add(array(
+            'name'       => 'submit',
+            'attributes' => array(
+                'type'   => 'submit',
+                'value'  => 'Login',
+                'id'     => 'submitbutton',
+            ),
+        ));
+         
+        $request = $this->getRequest();
+
+        if ($request->isPost()){
+            
+            $form->bind($login);
+            
+            $form->setData($request->getPost());
+
+                
+            if ($form->isValid()){
+
+                $this->setUserLogin();
+            }  
+        }
+       
+        return array('form'=>$form);
+    }
+    
+    public function newuserAction()
+    {
+          
+        $signup     = new \Auth\Model\Signup();
+        $builder    = new AnnotationBuilder();
+        $form       = $builder->createForm($signup);
+ 
+        $form->add(array(
+            'type' => 'Zend\Form\Element\Captcha',
+            'name' => 'captcha',
+            'options'         => array(
+                    'label'   => 'Please verify you are human',
+                    'captcha' => $this->getCaptcha(),
+            ),
+        ));
+         
+        $form->add(array(
+            'name'       => 'submit',
+            'attributes' => array(
+                'type'   => 'submit',
+                'value'  => 'Login',
+                'id'     => 'submitbutton',
+            ),
+        ));
+        
+        $request = $this->getRequest();
+
+        if ($request->isPost()){
+            
+            $form->bind($signup);
+            
+            $form->setData($request->getPost());
+             
+            if ($form->isValid()){
+
+                $this->addNewUser();
+            }  
+        }
+
+        return array('form'=>$form);
     }
 }

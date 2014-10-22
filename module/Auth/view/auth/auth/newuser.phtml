@@ -1,13 +1,24 @@
-<form method="POST" action="/login/newuser">
-    
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', $this->url(
+        'auth',
+        array(
+            'action'     => 'newuser',
+            'controller' => 'auth'
+        )
+    ));
+    $form->prepare();
+?>
+ 
+<?php echo $this->form()->openTag($form);?>
+
     <ul class="signup">
-        <h1 id="signup">Register</h1>
-        <li>User Name: <input type="text" name="USER_NAME"></li>
-        <li>Email: <input type="email" name="EMAIL"></li>
-        <li>Password:  <input type="password" name="PASSWORD"></li>
-        <li>Captcha:  <input type="text" name="captcha[input]"></li>
-        <li><img src="/images/captcha/signup/<?php echo $this->CaptchaID;?>.png" alt="captcha"></li>
-        <li><input type="hidden" value="<?php echo $this->CaptchaID?>" name="captcha[id]" /></li>
-        <li><input type="submit" value="Submit"></li>
+        
+        <h1 id="signup">User Sign up</h1>
+        <?php echo '<li>'.$this->formRow($form->get('username')).'</li>';?>
+        <?php echo '<li>'.$this->formRow($form->get('email')).'</li>';?>
+        <?php echo '<li>'.$this->formRow($form->get('password')).'</li>';?>
+        <?php echo '<li>'.$this->formRow($form->get('captcha')).'</li>';?>
+        <?php echo '<li>'.$this->formRow($form->get('submit')).'</li>';?>
     </ul>
-</form>
+<?php echo $this->form()->closeTag();?>
