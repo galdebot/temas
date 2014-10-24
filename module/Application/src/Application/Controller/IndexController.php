@@ -18,6 +18,10 @@ class IndexController extends AbstractActionController
     public function indexAction()
     { 
         $user_session = new Container('login_user');
+        
+        $container = $this->getServiceLocator()->get('Config');
+        
+        //print_r($container);
 
         return new ViewModel(array(
                 
@@ -34,7 +38,8 @@ class IndexController extends AbstractActionController
     {
         $user_session = new Container('login_user');
         
-        print_r($user_session->USER_NAME);
+        //print_r($user_session->USER_NAME)
+        
         return new ViewModel();
     }
 }

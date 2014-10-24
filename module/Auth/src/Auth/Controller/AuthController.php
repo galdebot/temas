@@ -118,7 +118,7 @@ class AuthController extends AbstractActionController
         
         $user_session = new Container('login_user');
         
-        print_r($user_session->USER_NAME);
+        //print_r($user_session->USER_NAME);
         
         $login      = new Login();
         $builder    = new AnnotationBuilder();
