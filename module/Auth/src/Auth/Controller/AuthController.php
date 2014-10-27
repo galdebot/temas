@@ -6,22 +6,16 @@ use \Zend\Mvc\Controller\AbstractActionController,
 \Zend\View\Model\ViewModel,
 \Zend\Session\Container,
 \Zend\Form\Annotation\AnnotationBuilder,
-\Auth\Model\Login;
+\Auth\Model\Login,
+\Auth\Model;
 
 class AuthController extends AbstractActionController
 {
     
-    private function getUserModel()
-    {      
-        $sm = $this->getServiceLocator();
-        
-        return new \Auth\Model\User( $sm->get('Zend\Db\Adapter\Adapter') );
-    }
-    
     private function setUserSession($data)
     {
-        $db = $this->getUserModel();
-                
+        $db = $this->getServiceLocator()->get('User');
+        
         $user_data = $db->getUserData($data);
 
         if($user_data->ADMIN_USER == 'Y')
@@ -43,7 +37,7 @@ class AuthController extends AbstractActionController
     
     private function setUserLogin(){
         
-        $db = $this->getUserModel();
+        $db = $this->getServiceLocator()->get('User');
         
         $user_name = $this->getRequest()->getPost('username');
         $password  = $this->getRequest()->getPost('password');
@@ -89,7 +83,7 @@ class AuthController extends AbstractActionController
     
     private function addNewUser()
     {
-        $db = $this->getUserModel();
+        $db = $this->getServiceLocator()->get('User');
   
         $user_name = $this->getRequest()->getPost('username');
         $password  = $this->getRequest()->getPost('password');

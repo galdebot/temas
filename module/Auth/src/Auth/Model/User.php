@@ -123,28 +123,4 @@ class User
         
         return $values;
     }
-    
-    public function test($data)
-    {
-        
-        $stmt = $this->adapter->createStatement();
-        
-        $sql = "
-        SELECT count(BOOKID) AS BOOK_COUNT 
-        FROM BIBLEDB_KJV
-        WHERE BOOKID = :BOOKID
-        ";
-        
-        //array of values o bind
-        $bind = array(
-            'BOOKID' => (INT)$data,
-        );
-        
-        $stmt->prepare($sql);
-        
-        //Bind values to execute
-        $result = $stmt->execute($bind);
-        
-        return $result;
-    }
 }
