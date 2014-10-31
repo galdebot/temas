@@ -47,7 +47,8 @@ class IndexController extends AbstractActionController
             //$sftp->uploadFile("/tmp/to_be_sent", "/tmp/to_be_received");
             ///home/galdebot/Desktop/test.txt
             $file = '/home/galdebot/Desktop/test.txt';
-            echo $sftp->getFileSize($file);
+            //echo $sftp->getFileSize($file);
+            echo $sftp->fileExists($file);
             
             //print_r($sftp);
         }

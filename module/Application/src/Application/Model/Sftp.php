@@ -106,4 +106,18 @@ class Sftp
         $sftp = $this->sftp;
         return filesize("ssh2.sftp://$sftp$file");
     }
+    
+    public function fileExists($file){
+        
+        $sftp = $this->sftp;
+        
+        if( file_exists("ssh2.sftp://$sftp$file") )
+        {
+            
+            return TRUE;
+        } else {
+            
+            return FALSE;
+        }
+    }
 }
