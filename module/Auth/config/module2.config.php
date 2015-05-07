@@ -11,14 +11,11 @@ return array(
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/login[/:action][/:id][/:type][/:type_id]',
-                    'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
-                    ),
+                    'route'    => '/logout',
+
                     'defaults' => array(
                         'controller' => 'Auth\Controller\Auth',
-                        'action'     => 'index',
+                        'action'     => 'logout',
                     ),
                 ),
             ),
@@ -28,7 +25,7 @@ return array(
     'navigation' => array(
         'default' => array(
             array(
-                'label'  => 'Login',
+                'label'  => 'Logout',
                 'route'  => 'auth',
             ),
         ),

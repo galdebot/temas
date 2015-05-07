@@ -1,19 +1,31 @@
 <?php
 namespace Auth;
 
+use Zend\Session\Container;
+
 class Module
 {
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+
+        $user_session = new Container('login_user');
+
+        if( !isset($user_session->USER_NAME) ){
+
+            return include __DIR__ . '/config/module.config.php';
+        }else{
+
+            return include __DIR__ . '/config/module2.config.php';
+        }
+
     }
 
     public function getAutoloaderConfig()
     {
         return array(
-            
+
             'Zend\Loader\StandardAutoloader' => array(
-                
+
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
@@ -22,7 +34,7 @@ class Module
     }
     
     public function getServiceConfig(){
-        
+
         return array(
 
             'factories' => array(
@@ -37,8 +49,11 @@ class Module
                     
                     $login = new Container('login_user');
                     return  $login;
-                }
-            )
+                },
+
+            ),
+
+            'navigation' => array(),
         );
     }
 }

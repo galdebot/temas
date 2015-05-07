@@ -3,7 +3,6 @@
 namespace Auth\Controller;
 
 use \Zend\Mvc\Controller\AbstractActionController,
-\Zend\View\Model\ViewModel,
 \Zend\Session\Container,
 \Zend\Form\Annotation\AnnotationBuilder,
 \Auth\Model\Login,
@@ -11,12 +10,19 @@ use \Zend\Mvc\Controller\AbstractActionController,
 
 class AuthController extends AbstractActionController
 {
+
+    private $db;
+
+
+    public function setDatabase( ){
+
+        $this->db = $this->getServiceLocator()->get('User');
+    }
     
     private function setUserSession($data)
     {
-        $db = $this->getServiceLocator()->get('User');
-        
-        $user_data = $db->getUserData($data);
+
+        $user_data = $this->db->getUserData($data);
 
         if($user_data->ADMIN_USER == 'Y')
         {
@@ -36,9 +42,7 @@ class AuthController extends AbstractActionController
     }
     
     private function setUserLogin(){
-        
-        $db = $this->getServiceLocator()->get('User');
-        
+
         $user_name = $this->getRequest()->getPost('username');
         $password  = $this->getRequest()->getPost('password');
         
@@ -49,13 +53,16 @@ class AuthController extends AbstractActionController
             $data->USER_NAME = $user_name;
             $data->PASSWORD  = $password;
 
-            $login = $db->validateUser($data);
+            $login = $this->db->validateUser($data);
 
             if($login == TRUE)
             {
-                echo 'User Validated';
+
                 
                 $this->setUserSession($data);
+
+                return $this->redirect()->toRoute('application',
+                    array('controller'=>'Application\Controller\Index', 'action'=>'index'));
             }else{
 
                 echo 'User not Validated';
@@ -83,8 +90,9 @@ class AuthController extends AbstractActionController
     
     private function addNewUser()
     {
-        $db = $this->getServiceLocator()->get('User');
-  
+
+        $this->db = $this->getServiceLocator()->get('User');
+
         $user_name = $this->getRequest()->getPost('username');
         $password  = $this->getRequest()->getPost('password');
         $email     = $this->getRequest()->getPost('email');
@@ -98,8 +106,17 @@ class AuthController extends AbstractActionController
         
         if ( $captcha->isValid($post_captcha) )
         {
-            echo "Success!";
-            $db->newUser($data);
+
+            $data2 = new \stdClass();
+            $data2->USER_NAME = $user_name;
+            $data2->PASSWORD  = $password;
+
+            $this->db->newUser($data);
+
+            $this->setUserSession($data2);
+
+           return $this->redirect()->toRoute('application',
+               array('controller'=>'Application\Controller\Index', 'action'=>'index'));
         }
         else
         {
@@ -109,10 +126,12 @@ class AuthController extends AbstractActionController
     
     public function indexAction()
     {
+
+       $this->db = $this->getServiceLocator()->get('User');
         
         $user_session = new Container('login_user');
         
-        //print_r($user_session->USER_NAME);
+       // print_r($user_session->USER_NAME);
         
         $login      = new Login();
         $builder    = new AnnotationBuilder();
@@ -143,6 +162,25 @@ class AuthController extends AbstractActionController
         }
        
         return array('form'=>$form);
+    }
+
+    public function logoutAction()
+    {
+
+        $this->db = $this->getServiceLocator()->get('User');
+
+        $user_session = new Container('login_user');
+
+       $user_session->getManager()->getStorage()->clear('login_user');
+
+        return $this->redirect()->toRoute('application',
+            array('controller'=>'Application\Controller\Index', 'action'=>'index'));
+
+        //$response = $this->getResponse();
+        //$response->setStatusCode(200);
+        //$response->setContent("Hello World");
+        //return $response;
+
     }
     
     public function newuserAction()
