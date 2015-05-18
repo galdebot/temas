@@ -15,6 +15,7 @@
     <ul class="signup">
         
         <h1 id="signup">User Sign up</h1>
+        <?php echo '<li>'.$this->message.'</li>';?>
         <?php echo '<li>'.$this->formRow($form->get('username')).'</li>';?>
         <?php echo '<li>'.$this->formRow($form->get('email')).'</li>';?>
         <?php echo '<li>'.$this->formRow($form->get('password')).'</li>';?>

@@ -12,6 +12,7 @@ class AuthController extends AbstractActionController
 {
 
     private $db;
+    private $message;
 
 
     public function setDatabase( ){
@@ -65,7 +66,7 @@ class AuthController extends AbstractActionController
                     array('controller'=>'Application\Controller\Index', 'action'=>'index'));
             }else{
 
-                echo 'User not Validated';
+                $this->message =  'Incorrect User Name or Password';
             }
         }
     }
@@ -84,6 +85,8 @@ class AuthController extends AbstractActionController
         ->setLineNoiseLevel(5);
         
         $captcha->getExpiration();
+        $captcha->setMessage('Please enter the correct captcha','badCaptcha');
+        $captcha->
         
         return $captcha;
     }
@@ -120,7 +123,7 @@ class AuthController extends AbstractActionController
         }
         else
         {
-            echo "Failed!";
+            $this->message = "";
         }     
     }
     
@@ -136,9 +139,11 @@ class AuthController extends AbstractActionController
         $login      = new Login();
         $builder    = new AnnotationBuilder();
         $form       = $builder->createForm($login);
-         
+
+
         $form->add(array(
             'name'       => 'submit',
+
             'attributes' => array(
                 'type'   => 'submit',
                 'value'  => 'Login',
@@ -158,10 +163,13 @@ class AuthController extends AbstractActionController
             if ($form->isValid()){
 
                 $this->setUserLogin();
-            }  
+            }
         }
        
-        return array('form'=>$form);
+        return array(
+            'form'=>$form,
+            'message' => $this->message,
+        );
     }
 
     public function logoutAction()
@@ -222,6 +230,9 @@ class AuthController extends AbstractActionController
             }  
         }
 
-        return array('form'=>$form);
+        return array(
+            'form'=>$form,
+            'message' => $this->message,
+        );
     }
 }

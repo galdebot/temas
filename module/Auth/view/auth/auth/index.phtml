@@ -15,6 +15,7 @@
     <ul class="signup">
         
         <h1 id="signup">User Login</h1>
+        <?php echo '<li>'.$this->message.'</li>';?>
         <?php echo '<li>'.$this->formRow($form->get('username')).'</li>';?>
         <?php echo '<li>'.$this->formRow($form->get('password')).'</li>';?>
         <?php echo '<li>'.$this->formRow($form->get('submit')).'</li>';?>
@@ -29,4 +30,4 @@ $url = $this->url(
             'controller' => 'auth'
         ));
 ?>
-<p>Not a member <a href="<?php echo $url;?>">click here</a> and sign up, it's free and you can share your thought's with us.</p>
+<p>Not a member <a href="<?php echo $url;?>">click here</a> and sign up, it's free and you can share your thoughts with us.</p>
