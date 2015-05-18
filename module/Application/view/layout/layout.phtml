@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta charset="utf-8">
-        <?php echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
 
-        <?php echo $this->headMeta()
-            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        <?php //echo $this->headTitle('ZF2 '. $this->translate('Skeleton Application'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php //echo //$this->headMeta()
+           // ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+           // ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
         ?>
 
         <!-- Le styles -->
@@ -15,17 +15,17 @@
                         //->prependStylesheet($this->basePath() . '/css/templatemo_style.css')
                        // ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
                        // ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
-        
+
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/templatemo_style.css');?>
 
         <!-- Scripts -->
-        <?php echo $this->headScript()
-            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
-            ->prependFile($this->basePath() . '/js/jquery.min.js')
-            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
-        ; ?>
+<!--        --><?php //echo $this->headScript()
+//            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+//            ->prependFile($this->basePath() . '/js/jquery.min.js')
+//            ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+//            ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+//        ; ?>
 
     </head>
     <body>
@@ -86,11 +86,15 @@
             <div id="templatemo_right">
                 <?php echo $this->content; ?>
             </div> <!-- end of right -->
+
+
         </div> <!-- end of content -->
-        
+
         <div id="templatemo_footer">
             Copyright © 2048 <a href="/">Your Company Name</a>
         </div> <!-- end of footer -->
     </div> <!-- end of container -->
+
+
     </body>
 </html>
