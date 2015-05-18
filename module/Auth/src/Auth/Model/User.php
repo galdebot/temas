@@ -7,7 +7,7 @@ use Zend\Db\Adapter\Adapter;
 class User 
 {  
     private $adapter;
-    CONST SALT = 'Bible';
+    CONST SALT = 'Try_To_Guess';
 
     public function __construct(Adapter $adapter)
     {
@@ -46,9 +46,9 @@ class User
         $sql = "
         INSERT INTO 
         USERS
-            (USER_ID,USER_NAME,PASSWORD,ADMIN_USER,EMAIL)
+            (USER_ID,USER_NAME,PASSWORD,ADMIN_USER,EMAIL,INSERT_DATE)
         VALUES
-            (:NewUserSeq,:User_Name,:Password,:Admin_User,:Email)
+            (:NewUserSeq,:User_Name,:Password,:Admin_User,:Email, CURRENT_TIMESTAMP)
         ";
         
         $bind = array(
