@@ -86,7 +86,6 @@ class AuthController extends AbstractActionController
         
         $captcha->getExpiration();
         $captcha->setMessage('Please enter the correct captcha','badCaptcha');
-        $captcha->
         
         return $captcha;
     }
