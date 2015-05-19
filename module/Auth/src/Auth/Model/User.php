@@ -136,7 +136,7 @@ class User
         OR USER_NAME = :USER_NAME
         ";
 
-        //array of values o bind
+        //array of values to bind
         $bind = array(
             'USER_NAME' => (STRING)$data->User_Name,
             'EMAIL'  => (STRING)$data->Email,
