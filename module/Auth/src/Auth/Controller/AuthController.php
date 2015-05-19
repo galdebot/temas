@@ -120,10 +120,6 @@ class AuthController extends AbstractActionController
            return $this->redirect()->toRoute('application',
                array('controller'=>'Application\Controller\Index', 'action'=>'index'));
         }
-        else
-        {
-            $this->message = "";
-        }     
     }
     
     public function indexAction()
@@ -226,7 +222,10 @@ class AuthController extends AbstractActionController
             if ($form->isValid()){
 
                 $this->addNewUser();
-            }  
+            }else{
+
+                $this->message = $this->getCaptcha()->getMessageTemplates();
+            }
         }
 
         return array(
