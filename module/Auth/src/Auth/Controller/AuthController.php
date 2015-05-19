@@ -8,6 +8,14 @@ use \Zend\Mvc\Controller\AbstractActionController,
 \Auth\Model\Login,
 \Auth\Model;
 
+/*
+ *
+ * @TO DO:
+ *  - filter post and get
+ *  filter_input(INPUT_GET, 'remove_token', FILTER_SANITIZE_STRING);
+ * */
+
+
 class AuthController extends AbstractActionController
 {
 
