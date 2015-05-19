@@ -109,7 +109,7 @@ class AuthController extends AbstractActionController
         if( $this->db->checkUserExist($data) !== \TRUE ){
 
             $this->message = $this->db->checkUserExist($data);
-            
+
         }
         
         if ( $captcha->isValid($post_captcha) && $this->db->checkUserExist($data) === \TRUE)
