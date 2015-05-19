@@ -105,8 +105,14 @@ class AuthController extends AbstractActionController
         $data->User_Name = $user_name;
         $data->Password  = $password;
         $data->Email     = $email;
+
+        if( $this->db->checkUserExist($data) !== \TRUE ){
+
+            $this->message = $this->db->checkUserExist($data);
+            
+        }
         
-        if ( $captcha->isValid($post_captcha) )
+        if ( $captcha->isValid($post_captcha) && $this->db->checkUserExist($data) === \TRUE)
         {
 
             $data2 = new \stdClass();
@@ -224,7 +230,8 @@ class AuthController extends AbstractActionController
                 $this->addNewUser();
             }else{
 
-                $this->message = $this->getCaptcha()->getMessageTemplates();
+                $template = $this->getCaptcha()->getMessageTemplates();
+                $this->message = $template["badCaptcha"];
             }
         }
 

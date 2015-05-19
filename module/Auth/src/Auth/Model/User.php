@@ -123,4 +123,57 @@ class User
         
         return $values;
     }
+
+    public function checkUserExist($data)
+    {
+
+        $stmt = $this->adapter->createStatement();
+
+        $sql = "
+        SELECT USER_NAME,EMAIL
+        FROM USERS
+        WHERE EMAIL = :EMAIL
+        OR USER_NAME = :USER_NAME
+        ";
+
+        //array of values o bind
+        $bind = array(
+            'USER_NAME' => (STRING)$data->User_Name,
+            'EMAIL'  => (STRING)$data->Email,
+        );
+
+        $stmt->prepare($sql);
+
+        //Bind values to execute
+        $result = $stmt->execute($bind);
+
+        $value = (OBJECT)$result->current();
+
+
+        if( $value->USER_NAME === $data->User_Name && $value->EMAIL !== $data->Email ){
+
+           return $message = 'User Name is in used please try another name.';
+
+        }
+
+        if( $value->USER_NAME !== $data->User_Name && $value->EMAIL === $data->Email ){
+
+            return $message = 'Email address is in used please try another email.';
+
+        }
+
+        if( $value->USER_NAME === $data->User_Name && $value->EMAIL === $data->Email ){
+
+
+            return $message = 'Both Email and User Name are in used please try again.';
+
+        }
+
+
+        if( $value->USER_NAME !== $data->User_Name && $value->EMAIL !== $data->Email ){
+
+            return \TRUE;
+
+        }
+    }
 }
