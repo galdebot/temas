@@ -44,13 +44,6 @@ class Module
                     $db = new \Auth\Model\User($sm->get('Zend\Db\Adapter\Adapter'));
                     return $db;
                 },
-                
-                'User_Session' => function(){
-                    
-                    $login = new Container('login_user');
-                    return  $login;
-                },
-
             ),
 
             'navigation' => array(),
