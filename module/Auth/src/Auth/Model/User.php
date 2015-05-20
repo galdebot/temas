@@ -175,5 +175,7 @@ class User
             return \TRUE;
 
         }
+
+        return \FALSE;
     }
 }

@@ -43,7 +43,7 @@ p { margin: 0; padding: 0; text-align: justify;}
 	font-size: 12px;
 	width: 960px;
 	height: 360px;
-	background: url(templatemo_header_bg.jpg) top center no-repeat;
+	background: url(Website_header.png) top center no-repeat;
 }
 
 #templatemo_header #out_mission_section {
@@ -143,7 +143,7 @@ p { margin: 0; padding: 0; text-align: justify;}
 	height: 30px; /* + 20 for padding top */
 	padding: 20px 0 0 15px;
 	margin-bottom: 30px;
-	background: url(templatemo_news_title_bg.gif) bottom left no-repeat;
+	/*background: url(templatemo_news_title_bg.gif) bottom left no-repeat;*/
 }
 
 #templatemo_news_section .templatemo_news_box {
@@ -251,7 +251,7 @@ p { margin: 0; padding: 0; text-align: justify;}
 #signup {
     height: 30px;
     padding: 15px 0px 0px 15px;
-    background-color:#CCE3F9;
+    background-color:#F0F0F0;
     border-top: 1px solid #EEEEEE;
     border-bottom:1px solid #EEEEEE; 
 }
@@ -261,7 +261,7 @@ ul.signup{
     border-bottom: 1px solid #EEEEEE;
     border-right: 1px solid #EEEEEE;
     border-left:1px solid #EEEEEE;
-    background-color: #EEEEEE;
+
 }
 
 ul.signup li{
